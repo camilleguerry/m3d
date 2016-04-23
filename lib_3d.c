@@ -26,7 +26,7 @@ t_point3d *definirPoint3d(double x, double y, double z)	// attention malloc
 }
 
 t_point3d *definirVecteur3d(double x, double y, double z)	// attention malloc
-{	// TODO
+{	
 	t_point3d *p = NULL;
 	p  = (t_point3d*) malloc(sizeof(t_point3d));
 	if (p!=NULL)
@@ -43,7 +43,6 @@ t_triangle3d *definirTriangle3d(t_point3d * a, t_point3d * b, t_point3d * c)	// 
 {
 	t_triangle3d *t = NULL;
 
-	// TODO
 	t=(t_triangle3d*) malloc(sizeof(t_triangle3d));
 	if (t!=NULL)
 	{
@@ -57,7 +56,7 @@ t_triangle3d *definirTriangle3d(t_point3d * a, t_point3d * b, t_point3d * c)	// 
 t_triangle3d *copierTriangle3d(t_triangle3d *t)
 {
 	t_triangle3d *n = NULL;
-	// TODO
+
 	n=(t_triangle3d*) malloc(sizeof(t_triangle3d));
 	if (n!=NULL)
 	{
@@ -81,7 +80,6 @@ void __copierTriangle3d(t_triangle3d *t1, t_triangle3d *t2){	//t1<-t2
 }
 void libererTriangle3d(t_triangle3d *t)
 {
-	// TODO
 	if (t!=NULL)
 	{
 		free(t->abc[0]);
@@ -136,7 +134,16 @@ void remplirTriangle3d(t_surface * surface, t_triangle3d * triangle, Uint32 c)
 
 void translationTriangle3d(t_triangle3d *t, t_point3d *vecteur)
 {
-	
+	int i;
+	double mtranslation[4][4]={
+			{1,0,0, vecteur->xyzt[0]},\
+			{0,1,0, vecteur->xyzt[1]},\
+			{0,0,1, vecteur->xyzt[2]},\
+			{0,0,0,1}};
+
+	for (i=0; i<3; i++){
+		multiplicationVecteur3d(t->abc[i], mtranslation, t->abc[i]);	
+	};	
 
 }
 
@@ -145,115 +152,91 @@ void rotationTriangle3d(t_triangle3d *t, t_point3d *centre, float degreX, float 
 	int i;
 	int j;
 	t_point3d *p_aux;
-	p_aux=(t_point3d*) malloc(sizeof(t_point3d));	
+	t_triangle3d *t_aux;
+	p_aux=(t_point3d*) malloc(sizeof(t_point3d));
+	t_aux=(t_triangle3d*) malloc(sizeof(t_triangle3d));
 	
 	
-	for (i=0; i<3; i++){
-		t->abc[0]->xyzt[i]=(t->abc[0]->xyzt[i])-centre->xyzt[i];
-		t->abc[1]->xyzt[i]=(t->abc[1]->xyzt[i])+centre->xyzt[i];
-		t->abc[2]->xyzt[i]=(t->abc[2]->xyzt[i])+centre->xyzt[i];
-	}
+	double mtranslation[4][4]={
+			{1,0,0, -centre->xyzt[0]},\
+			{0,1,0, -centre->xyzt[1]},\
+			{0,0,1, -centre->xyzt[2]},\
+			{0,0,0,1}};
 
-
-	double mrotationX[4][4];
-	
-	mrotationX[0][0]=1;
-	mrotationX[0][1]=0;
-	mrotationX[0][2]=0;
-	mrotationX[0][3]=0;
-	
-	mrotationX[1][0]=0;
-	mrotationX[1][1]=cos((M_PI*degreX)/180);
-	mrotationX[1][2]=-sin((M_PI*degreX)/180);
-	mrotationX[1][3]=0;
-
-	mrotationX[2][0]=0;
-	mrotationX[2][1]=sin((M_PI*degreX)/180);
-	mrotationX[2][2]=cos((M_PI*degreX)/180);
-	mrotationX[2][3]=0;
-
-	mrotationX[3][0]=0;
-	mrotationX[3][1]=0;
-	mrotationX[3][2]=0;
-	mrotationX[3][3]=1;
-
-	double mrotationY[4][4];
-	
-	mrotationY[0][0]=cos((M_PI*degreY)/180);
-	mrotationY[0][1]=0;
-	mrotationY[0][2]=sin((M_PI*degreY)/180);
-	mrotationY[0][3]=0;
-
-	mrotationY[1][0]=0;
-	mrotationY[1][1]=1;
-	mrotationY[1][2]=0;
-	mrotationY[1][3]=0;
-
-	mrotationY[2][0]=-sin((M_PI*degreY)/180);
-	mrotationY[2][1]=0;
-	mrotationY[2][2]=cos((M_PI*degreY)/180);
-	mrotationY[2][3]=0;
-	
-	mrotationY[3][0]=0;
-	mrotationY[3][1]=0;
-	mrotationY[3][2]=0;
-	mrotationY[3][3]=1;
-	
-	
-	double mrotationZ[4][4];/*={\
-			{cos,-sin,0,0},\
-			{;*/
-
-	mrotationZ[0][0]= cos((M_PI*degreZ)/180);
-	mrotationZ[0][1]=-sin((M_PI*degreZ)/180);
-	mrotationZ[0][2]=0;
-	mrotationZ[0][3]=0;
-
-	mrotationZ[1][0]= sin((M_PI*degreZ)/180);
-	mrotationZ[1][1]=cos((M_PI*degreZ)/180);
-	mrotationZ[1][2]=0;
-	mrotationZ[1][3]=0;
-
-	mrotationZ[2][0]=0;
-	mrotationZ[2][1]=0;
-	mrotationZ[2][2]=1;
-	mrotationZ[2][3]=0;
-	
-	mrotationZ[3][0]=0;
-	mrotationZ[3][1]=0;
-	mrotationZ[3][2]=0;
-	mrotationZ[3][3]=1;
+			
 	
 	for (i=0; i<3; i++){
-		multiplicationVecteur3d(p_aux, mrotationX, t->abc[i]);
-		for (j=0; j<4; j++){
-			t->abc[i]->xyzt[j]=p_aux->xyzt[j];
-		}
-		multiplicationVecteur3d(p_aux, mrotationY, t->abc[i]);
-		for (j=0; j<4; j++){
-			t->abc[i]->xyzt[j]=p_aux->xyzt[j];
-		}
-		multiplicationVecteur3d(p_aux, mrotationZ, t->abc[i]);
-		for (j=0; j<4; j++){
-			t->abc[i]->xyzt[j]=p_aux->xyzt[j];
-		}
+		t_aux->abc[i]=(t_point3d*) malloc(sizeof(t_point3d));
+		multiplicationVecteur3d(t_aux->abc[i], mtranslation, t->abc[i]);	
+	};
+	
+	
+
+	double mrotationX[4][4]={
+				{1,0,0,0},\
+				{0,cos((M_PI*degreX)/180),-sin((M_PI*degreX)/180),0},\
+				{0,sin((M_PI*degreX)/180),cos((M_PI*degreX)/180), 0},\
+				{0,0,0,1},\
+				};
+	
+
+	double mrotationY[4][4]= {
+				{cos((M_PI*degreY)/180),0,sin((M_PI*degreY)/180),0},\
+				{0,1,0,0},\
+				{-sin((M_PI*degreY)/180),0,cos((M_PI*degreY)/180), 0},\
+				{0,0,0,1},\
+				};
+	
+	
+	double mrotationZ[4][4]={
+			{cos((M_PI*degreZ)/180),-sin((M_PI*degreZ)/180),0,0},\
+			{sin((M_PI*degreZ)/180),cos((M_PI*degreZ)/180),0,0},\
+			{0,0,1,0},\
+			{0,0,0,1},\
+			};
+
+	
+	for (i=0; i<3; i++){
+		multiplicationVecteur3d(t_aux->abc[i], mrotationX, t_aux->abc[i]);
+		/*for (j=0; j<4; j++){
+			t_aux->abc[i]->xyzt[j]=p_aux->xyzt[j];
+		}*/
+		multiplicationVecteur3d(t_aux->abc[i], mrotationY, t_aux->abc[i]);
+		/*for (j=0; j<4; j++){
+			t_aux->abc[i]->xyzt[j]=p_aux->xyzt[j];
+		}*/
+		multiplicationVecteur3d(t_aux->abc[i], mrotationZ, t_aux->abc[i]);
+		/*for (j=0; j<4; j++){
+			t_aux->abc[i]->xyzt[j]=p_aux->xyzt[j];
+		}*/
 	};
 
+
+	double mtranslation2[4][4]={
+			{1,0,0, centre->xyzt[0]},\
+			{0,1,0, centre->xyzt[1]},\
+			{0,0,1, centre->xyzt[2]},\
+			{0,0,0,1}
+		      };
+
+
 	for (i=0; i<3; i++){
-		t->abc[0]->xyzt[i]=(t->abc[0]->xyzt[i])+centre->xyzt[i];
-		t->abc[1]->xyzt[i]=(t->abc[1]->xyzt[i])+centre->xyzt[i];
-		t->abc[2]->xyzt[i]=(t->abc[2]->xyzt[i])+centre->xyzt[i];
-	}
-
-
-
+		multiplicationVecteur3d(t->abc[i], mtranslation2, t_aux->abc[i]);
+	};
 	
+	transformationTriangle3d(t_aux, mtranslation2);
+	t=t_aux;
+	libererTriangle3d;
 	free(p_aux);
 }
 
-void transformationTriangle3d(t_triangle3d *t, double mat[4][4])
-{
-	// TODO
+void transformationTriangle3d(t_triangle3d *t, double mat[4][4]){
+	int i;
+	for (i=0; i<3; i++){
+		t->abc[i]=(t_point3d*) malloc(sizeof(t_point3d));
+		multiplicationVecteur3d(t->abc[i], mat, t->abc[i]);	
+	};
+		
 
 }
 
