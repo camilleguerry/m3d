@@ -82,6 +82,7 @@ void libererTriangle3d(t_triangle3d *t)
 {
 	if (t!=NULL)
 	{
+		
 		free(t->abc[0]);
 		free(t->abc[1]);
 		free(t->abc[2]);

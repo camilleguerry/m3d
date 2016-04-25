@@ -52,28 +52,28 @@ t_objet3d* parallelepipede(double lx, double ly, double lz)
 	t_objet3d *pt_objet = NULL;
 	pt_objet=objet_vide();	
 	
-	t_point3d *p1;
-	t_point3d *p2;
-	t_point3d *p3;
+	//t_point3d *p1
+	//t_point3d *p2;
+	//t_point3d *p3;
 	t_triangle3d *face1;
 
-	t_point3d *p4;
+	//t_point3d *p4;
 	t_triangle3d *face2;
 
-	t_point3d *p5;
+	//t_point3d *p5;
 	t_triangle3d *face3;
 
-	t_point3d *p6;
+	//t_point3d *p6;
 	t_triangle3d *face4;
 
 	t_triangle3d *face5;
 	
-	t_point3d *p7;
+	//t_point3d *p7;
 	t_triangle3d *face6;
 	
 	t_triangle3d *face7;
 
-	t_point3d *p8;
+	//t_point3d *p8;
 	t_triangle3d *face8;
 
 	t_triangle3d *face9;
@@ -83,41 +83,33 @@ t_objet3d* parallelepipede(double lx, double ly, double lz)
 
 	pt_objet = objet_vide();
 	
-	p1=definirPoint3d(0, 0, 0);	
-	p2=definirPoint3d(lx, 0,0);
-	p3=definirPoint3d(lx, ly, 0);
-	face1=definirTriangle3d(p1, p2, p3);
+	/*p1=definirPoint3d(-lx/2, -ly/2, lz/2);	
+	p2=definirPoint3d(lx/2, -ly/2,lz/2);
+	p3=definirPoint3d(-lx/2, ly/2, lz/2);
+	p4=definirPoint3d(lx/2,ly/2,lz/2);
+	p5=definirPoint3d(-lx/2, ly/2, -lz/2);
+	p6=definirPoint3d(lx/2, ly/2, -lz/2);
+	p7=definirPoint3d(lx/2, -ly/2, -lz/2);
+	p8=definirPoint3d(-lx/2, -ly/2, -lz/2);*/
 
-	
-	p4=definirPoint3d(0, ly,0);
-	face2=definirTriangle3d(p1, p4, p3);
-	
-	p5=definirPoint3d(lx, ly, -lz);
-	face3=definirTriangle3d(p4, p3, p5);
-	
-	p6=definirPoint3d(lx, ly, -lz);
-	face4=definirTriangle3d(p4, p6, p5);
-	
-	face5=definirTriangle3d(p2, p3, p5);
+	face1=definirTriangle3d(definirPoint3d(-lx/2, -ly/2, lz/2),definirPoint3d(lx/2, -ly/2,lz/2), definirPoint3d(lx/2,ly/2,lz/2));
+	face2=definirTriangle3d(definirPoint3d(-lx/2, -ly/2, lz/2), definirPoint3d(lx/2,ly/2,lz/2), definirPoint3d(-lx/2, ly/2, lz/2));
 
-	p7=definirPoint3d(lx, ly, -lz);
-	face6=definirTriangle3d(p2, p7, p5);
-	
-	face7=definirTriangle3d(p1, p4, p6);
-	
-	p8=definirPoint3d(0, 0, -lz);
-	face8=definirTriangle3d(p1, p8, p6);
+	face3=definirTriangle3d(definirPoint3d(lx/2,ly/2,lz/2), definirPoint3d(-lx/2, ly/2, lz/2), definirPoint3d(-lx/2, ly/2, -lz/2));	
+	face4=definirTriangle3d(definirPoint3d(lx/2,ly/2,lz/2), definirPoint3d(lx/2, ly/2, -lz/2), definirPoint3d(-lx/2, ly/2, -lz/2));
 
-	face9=definirTriangle3d(p8, p6, p5);
-	
-	face10=definirTriangle3d(p8, p3, p5);
+	face5=definirTriangle3d(definirPoint3d(lx/2, -ly/2,lz/2), definirPoint3d(lx/2,ly/2,lz/2), definirPoint3d(lx/2, ly/2, -lz/2));
+	face6=definirTriangle3d(definirPoint3d(lx/2, -ly/2,lz/2), definirPoint3d(lx/2, -ly/2, -lz/2), definirPoint3d(lx/2, ly/2, -lz/2));
 
-	face11=definirTriangle3d(p1, p8, p7);
-	
-	face12=definirTriangle3d(p1, p3, p7);
-	
-	printf("1\n");
+	face7=definirTriangle3d(definirPoint3d(-lx/2, -ly/2, lz/2), definirPoint3d(-lx/2, ly/2, lz/2), definirPoint3d(-lx/2, -ly/2, -lz/2));	
+	face8=definirTriangle3d(definirPoint3d(-lx/2, ly/2, -lz/2), definirPoint3d(-lx/2, -ly/2, -lz/2), definirPoint3d(-lx/2, ly/2, lz/2));
 
+	face9=definirTriangle3d(definirPoint3d(-lx/2, -ly/2, -lz/2), definirPoint3d(lx/2, ly/2, -lz/2), definirPoint3d(-lx/2, ly/2, -lz/2));
+	face10=definirTriangle3d(definirPoint3d(-lx/2, -ly/2, -lz/2), definirPoint3d(lx/2, -ly/2, -lz/2), definirPoint3d(lx/2, ly/2, -lz/2));
+
+	face11=definirTriangle3d(definirPoint3d(-lx/2, -ly/2, lz/2), definirPoint3d(-lx/2, -ly/2, -lz/2), definirPoint3d(lx/2, -ly/2, -lz/2));
+	face12=definirTriangle3d(definirPoint3d(-lx/2, -ly/2, lz/2), definirPoint3d(lx/2, -ly/2,lz/2), definirPoint3d(lx/2, -ly/2, -lz/2));
+	
 	t_maillon* maillon1 = __cree_maillon(face1,ROUGEC);
 	t_maillon* maillon2 = __cree_maillon(face2,ROUGEC);
 	t_maillon* maillon3 = __cree_maillon(face3,VERTC);
@@ -131,8 +123,6 @@ t_objet3d* parallelepipede(double lx, double ly, double lz)
 	t_maillon* maillon11 = __cree_maillon(face11,ROSEC);
 	t_maillon* maillon12 = __cree_maillon(face12,ROSEC);
 
-	printf("2\n");
-
 	__insere_tete(pt_objet,maillon1); 
 	__insere_tete(pt_objet,maillon2);
 	__insere_tete(pt_objet,maillon3);
@@ -144,23 +134,8 @@ t_objet3d* parallelepipede(double lx, double ly, double lz)
 	__insere_tete(pt_objet,maillon9);
 	__insere_tete(pt_objet,maillon10);
 	__insere_tete(pt_objet,maillon11);
+	__insere_tete(pt_objet,maillon12);
 
-	printf("3\n");
-
-	free(maillon1);
-	free(maillon2);
-	free(maillon3);
-	free(maillon4);
-	free(maillon5);
-	free(maillon6);
-	free(maillon7);
-	free(maillon8);
-	free(maillon9);
-	free(maillon10);
-	free(maillon11);
-	free(maillon12);
-	
-	printf("4\n");
 	return pt_objet;
 }
 
@@ -229,13 +204,15 @@ void composerObjet3d(t_objet3d* o, t_objet3d* o2) /* o = o+o2, o2 ne signifiera 
 void libererObjet3d(t_objet3d *o)
 {
 	t_maillon *p_aux ;
-
+	libererTriangle3d(o->tete->face);
     while(o->tete!=NULL) 
     {
         p_aux=o->tete->pt_suiv;
+		if (p_aux!=NULL){
+			libererTriangle3d(p_aux->face);
+		};
         free (o->tete);
         o->tete=p_aux;
-		printf("a\n");
     }
 	
 }
@@ -257,26 +234,42 @@ void dessinerObjet3d(t_surface *surface, t_objet3d* pt_objet)
 	{  
 		remplirTriangle3d(surface, p_aux->face, p_aux->couleur);
 		p_aux=p_aux->pt_suiv;
-		printf("dessin\n");
 	};
 	free(p_aux);
 }
 
 void translationObjet3d(t_objet3d* pt_objet, t_point3d *vecteur)
 {
-	// TODO
+	t_maillon *pt_aux;
+	pt_aux = pt_objet->tete;
+	while (pt_aux !=NULL){
+		translationTriangle3d(pt_aux->face, vecteur);
+		pt_aux=pt_aux->pt_suiv;
+	}
+	free(pt_aux);	
 
 }
 
 void rotationObjet3d(t_objet3d* pt_objet, t_point3d *centre, float degreX, float degreY, float degreZ)
 {
-	// TODO
-
+	t_maillon *pt_aux;
+	pt_aux = pt_objet->tete;
+	while (pt_aux !=NULL){
+		rotationTriangle3d(pt_aux->face, centre, degreX, degreY, degreZ);
+		pt_aux=pt_aux->pt_suiv;
+	}
+	free(pt_aux);
 }
 
 void transformationObjet3d(t_objet3d* pt_objet, double mat[4][4])
 {
-	// TODO
+	t_maillon *pt_aux;
+	pt_aux = pt_objet->tete;
+	while (pt_aux !=NULL){
+		transformationTriangle3d(pt_aux->face, mat);
+		pt_aux=pt_aux->pt_suiv;
+	}
+	free(pt_aux);
 
 }
 
