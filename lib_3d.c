@@ -224,11 +224,12 @@ void rotationTriangle3d(t_triangle3d *t, t_point3d *centre, float degreX, float 
 	for (i=0; i<3; i++){
 		multiplicationVecteur3d(t->abc[i], mtranslation2, t_aux->abc[i]);
 	};
+
 	
-	transformationTriangle3d(t_aux, mtranslation2);
-	t=t_aux;
-	libererTriangle3d;
-	free(p_aux);
+	//transformationTriangle3d(t_aux, mtranslation2);
+	//t=t_aux;
+	//libererTriangle3d;
+	//free(p_aux);
 }
 
 void transformationTriangle3d(t_triangle3d *t, double mat[4][4]){

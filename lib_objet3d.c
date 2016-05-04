@@ -9,11 +9,12 @@
 // cree un nouveau maillon, cf cours algo
 t_maillon* __cree_maillon(t_triangle3d *face, Uint32 couleur)
 {
+	
 	t_maillon* pt_maillon = NULL;
 	pt_maillon = malloc(sizeof(t_maillon));
 	pt_maillon->face= face;
 	pt_maillon->couleur=couleur;
-	 
+	
 
 	return pt_maillon;
 }
@@ -52,28 +53,24 @@ t_objet3d* parallelepipede(double lx, double ly, double lz)
 	t_objet3d *pt_objet = NULL;
 	pt_objet=objet_vide();	
 	
-	//t_point3d *p1
-	//t_point3d *p2;
-	//t_point3d *p3;
 	t_triangle3d *face1;
 
-	//t_point3d *p4;
+	
 	t_triangle3d *face2;
 
-	//t_point3d *p5;
+	
 	t_triangle3d *face3;
 
-	//t_point3d *p6;
+	
 	t_triangle3d *face4;
 
 	t_triangle3d *face5;
 	
-	//t_point3d *p7;
 	t_triangle3d *face6;
 	
 	t_triangle3d *face7;
 
-	//t_point3d *p8;
+	
 	t_triangle3d *face8;
 
 	t_triangle3d *face9;
@@ -83,15 +80,7 @@ t_objet3d* parallelepipede(double lx, double ly, double lz)
 
 	pt_objet = objet_vide();
 	
-	/*p1=definirPoint3d(-lx/2, -ly/2, lz/2);	
-	p2=definirPoint3d(lx/2, -ly/2,lz/2);
-	p3=definirPoint3d(-lx/2, ly/2, lz/2);
-	p4=definirPoint3d(lx/2,ly/2,lz/2);
-	p5=definirPoint3d(-lx/2, ly/2, -lz/2);
-	p6=definirPoint3d(lx/2, ly/2, -lz/2);
-	p7=definirPoint3d(lx/2, -ly/2, -lz/2);
-	p8=definirPoint3d(-lx/2, -ly/2, -lz/2);*/
-
+	
 	face1=definirTriangle3d(definirPoint3d(-lx/2, -ly/2, lz/2),definirPoint3d(lx/2, -ly/2,lz/2), definirPoint3d(lx/2,ly/2,lz/2));
 	face2=definirTriangle3d(definirPoint3d(-lx/2, -ly/2, lz/2), definirPoint3d(lx/2,ly/2,lz/2), definirPoint3d(-lx/2, ly/2, lz/2));
 
@@ -175,11 +164,68 @@ t_objet3d* arbre(double lx, double ly, double lz)
 
 t_objet3d* damier(double lx, double lz, double nx, double nz)
 {
+
+	Uint32 couleur1;
+	Uint32 couleur2;
+
 	t_objet3d *pt_objet = NULL;
 
 	pt_objet = objet_vide();
+	int i, j;
 
-	// TODO
+	for (i=1; i<=nx/2; i++){
+		for(j=1; j<=nz/2; j++){
+
+			if ((j-i)%2==0){
+				couleur1=ROUGEF;
+				couleur2=BLANC;
+			}
+			else{
+				couleur1=BLANC;
+				couleur2=ROUGEF;
+				}
+			__insere_tete(pt_objet,__cree_maillon(definirTriangle3d(definirPoint3d(i*lx/nx, 0, j*lz/nz), 
+																	definirPoint3d((i-1)*lx/nx, 0, j*lz/nz), 
+																	definirPoint3d((i-1)*lx/nx, 0, (j-1)*lz/nz)),
+													couleur1));
+			__insere_tete(pt_objet,__cree_maillon(definirTriangle3d(definirPoint3d(i*lx/nx, 0, j*lz/nz), 
+																	definirPoint3d(i*lx/nx, 0, (j-1)*lz/nz), 
+																	definirPoint3d((i-1)*lx/nx, 0, (j-1)*lz/nz)),
+													couleur1));
+			
+
+			
+			__insere_tete(pt_objet,__cree_maillon(definirTriangle3d(definirPoint3d(-i*lx/nx, 0, -j*lz/nz), 
+																	definirPoint3d(-(i-1)*lx/nx, 0, -j*lz/nz), 
+																	definirPoint3d(-(i-1)*lx/nx, 0, -(j-1)*lz/nz)),
+													couleur1)); 
+			__insere_tete(pt_objet,__cree_maillon(definirTriangle3d(definirPoint3d(-i*lx/nx, 0, -j*lz/nz), 
+																	definirPoint3d(-i*lx/nx, 0, -(j-1)*lz/nz), 
+																	definirPoint3d(-(i-1)*lx/nx, 0, -(j-1)*lz/nz)),
+													couleur1));	
+
+
+
+			__insere_tete(pt_objet,__cree_maillon(definirTriangle3d(definirPoint3d(-i*lx/nx, 0, j*lz/nz), 
+																	definirPoint3d(-(i-1)*lx/nx, 0, j*lz/nz), 
+																	definirPoint3d(-(i-1)*lx/nx, 0, (j-1)*lz/nz)),
+													couleur2)); 
+			__insere_tete(pt_objet,__cree_maillon(definirTriangle3d(definirPoint3d(-i*lx/nx, 0, j*lz/nz), 
+																	definirPoint3d(-i*lx/nx, 0, (j-1)*lz/nz), 
+																	definirPoint3d(-(i-1)*lx/nx, 0, (j-1)*lz/nz)),
+													couleur2));
+
+
+			__insere_tete(pt_objet,__cree_maillon(definirTriangle3d(definirPoint3d(i*lx/nx, 0, -j*lz/nz), 
+																	definirPoint3d((i-1)*lx/nx, 0, -j*lz/nz), 
+																	definirPoint3d((i-1)*lx/nx, 0, -(j-1)*lz/nz)),
+													couleur2)); 
+			__insere_tete(pt_objet,__cree_maillon(definirTriangle3d(definirPoint3d(i*lx/nx, 0, -j*lz/nz), 
+																	definirPoint3d(i*lx/nx, 0, -(j-1)*lz/nz), 
+																	definirPoint3d((i-1)*lx/nx, 0, -(j-1)*lz/nz)),
+													couleur2));
+			}
+	}
 
 	return pt_objet;
 
@@ -218,9 +264,49 @@ void libererObjet3d(t_objet3d *o)
 }
 
 //effectue un tri des faces de l'objet dans l'ordre des z decroissants => cf algorithme du peintre
-void __trier_objet(t_objet3d *pt_objet)
-{
-	// TODO
+
+void __trier_objet(t_objet3d *pt_objet){   
+	
+	t_maillon *p, *q, *max;
+	t_triangle3d *tmp_f;
+	Uint32 tmp_c;
+
+	p=pt_objet->tete;
+
+	int i;
+	int moyMax;
+	int moyenneZ;
+
+	while (p->pt_suiv !=NULL){
+		max=p;	
+		q=p->pt_suiv;
+		moyMax=0;
+		for (i=0; i<3; i++){
+			moyMax= moyMax + max->face->abc[i]->xyzt[2];
+		}
+		while(q!=NULL)
+		{
+			
+			moyenneZ=0;
+			for (i=0; i<3; i++){
+				moyenneZ= moyenneZ +q->face->abc[i]->xyzt[2];
+			}
+			if(moyenneZ > moyMax )
+			{
+				max=q;
+				moyMax=moyenneZ;
+			}
+			q=q->pt_suiv; 
+		}
+		tmp_f=p->face;
+		p->face = max->face;
+		max->face = tmp_f;
+
+		tmp_c=p->couleur;
+		p->couleur = max->couleur;
+		max->couleur = tmp_c;
+		p=p->pt_suiv;
+	}
 
 }
 
@@ -229,13 +315,16 @@ void dessinerObjet3d(t_surface *surface, t_objet3d* pt_objet)
 	t_maillon *p_aux;
 	p_aux= pt_objet->tete;
 	
-
+	
+	
+	__trier_objet(pt_objet);
+	
 	while (p_aux != NULL) 
 	{  
 		remplirTriangle3d(surface, p_aux->face, p_aux->couleur);
 		p_aux=p_aux->pt_suiv;
 	};
-	free(p_aux);
+	
 }
 
 void translationObjet3d(t_objet3d* pt_objet, t_point3d *vecteur)
@@ -246,7 +335,7 @@ void translationObjet3d(t_objet3d* pt_objet, t_point3d *vecteur)
 		translationTriangle3d(pt_aux->face, vecteur);
 		pt_aux=pt_aux->pt_suiv;
 	}
-	free(pt_aux);	
+		
 
 }
 
@@ -258,7 +347,7 @@ void rotationObjet3d(t_objet3d* pt_objet, t_point3d *centre, float degreX, float
 		rotationTriangle3d(pt_aux->face, centre, degreX, degreY, degreZ);
 		pt_aux=pt_aux->pt_suiv;
 	}
-	free(pt_aux);
+	
 }
 
 void transformationObjet3d(t_objet3d* pt_objet, double mat[4][4])
@@ -269,7 +358,21 @@ void transformationObjet3d(t_objet3d* pt_objet, double mat[4][4])
 		transformationTriangle3d(pt_aux->face, mat);
 		pt_aux=pt_aux->pt_suiv;
 	}
-	free(pt_aux);
+	
 
 }
 
+/*void affiche_moy(t_objet3d* pt_objet){
+	t_maillon *p;
+	p=pt_objet->tete;
+	int i;
+	while(p!=NULL){
+		int moyZ=0;
+		for(i=0;i<3;i++){
+			moyZ=moyZ+p->face->abc[i]->xyzt[2];
+		}
+		printf("%d ",moyZ);
+		p=p->pt_suiv;
+	}
+	printf("\n");	
+}*/

@@ -59,4 +59,6 @@ void rotationObjet3d(t_objet3d* pt_objet, t_point3d *centre, float degreX, float
 // effectue une transformation arbitraire sur les faces de l'objet selon le vecteur donne en parametre, vous pourrez ensuite modifier les deux fonctions precedentes pour faire appel a cette fonction
 void transformationObjet3d(t_objet3d* pt_objet, double mat[4][4]);
 
+//void affiche_moy(t_objet3d* pt_objet);
+
 #endif

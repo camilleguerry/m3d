@@ -3,25 +3,29 @@
 
 void multiplicationVecteur3d(t_point3d *v1, double m[4][4], t_point3d *v2) // v1 = m*v2
 {
-	//int i, j;
+	int i;
 
-	// TODO
-	
-	
-	v1->xyzt[0]= (v2->xyzt[0])*m[0][0]+(v2->xyzt[1])*m[0][1]+(v2->xyzt[2])*m[0][2]+(v2->xyzt[3])*m[0][3];
-	v1->xyzt[1]= (v2->xyzt[0])*m[1][0]+(v2->xyzt[1])*m[1][1]+(v2->xyzt[2])*m[1][2]+(v2->xyzt[3])*m[1][3];
-	v1->xyzt[2]= (v2->xyzt[0])*m[2][0]+(v2->xyzt[1])*m[2][1]+(v2->xyzt[2])*m[2][2]+(v2->xyzt[3])*m[2][3];
-	v1->xyzt[3]= (v2->xyzt[0])*m[3][0]+(v2->xyzt[1])*m[3][1]+(v2->xyzt[2])*m[3][2]+(v2->xyzt[3])*m[3][3];
-	
+	t_point3d *v_aux;
+	v_aux=malloc(sizeof(t_point3d));
+	*v_aux=*v1;	
+
+	v_aux->xyzt[0]= (v2->xyzt[0])*m[0][0]+(v2->xyzt[1])*m[0][1]+(v2->xyzt[2])*m[0][2]+(v2->xyzt[3])*m[0][3];
+	v_aux->xyzt[1]= (v2->xyzt[0])*m[1][0]+(v2->xyzt[1])*m[1][1]+(v2->xyzt[2])*m[1][2]+(v2->xyzt[3])*m[1][3];
+	v_aux->xyzt[2]= (v2->xyzt[0])*m[2][0]+(v2->xyzt[1])*m[2][1]+(v2->xyzt[2])*m[2][2]+(v2->xyzt[3])*m[2][3];
+	v_aux->xyzt[3]= (v2->xyzt[0])*m[3][0]+(v2->xyzt[1])*m[3][1]+(v2->xyzt[2])*m[3][2]+(v2->xyzt[3])*m[3][3];
+
+	for (i=0; i<4; i++){
+		v1->xyzt[i]=v_aux->xyzt[i];
+	}
+	free (v_aux);
 }
 
 void multiplicationMatrice3d(double m1[4][4], double m2[4][4], double m3[4][4]) // m1 = m2*m3
 {
-	//int i, j, k;
-
-	// TODO
+	int i, j;
 
 	double m_aux[4][4];
+	
 
 	m_aux[0][0]= m2[0][0]*m3[0][0]+m2[0][1]*m3[1][0]+m2[0][2]*m3[2][0]+m2[0][3]*m3[3][0];
 	m_aux[0][1]= m2[0][0]*m3[0][1]+m2[0][1]*m3[1][1]+m2[0][2]*m3[2][1]+m2[0][3]*m3[3][1];
@@ -43,7 +47,11 @@ void multiplicationMatrice3d(double m1[4][4], double m2[4][4], double m3[4][4]) 
 	m_aux[3][2]= m2[3][0]*m3[0][2]+m2[3][1]*m3[1][2]+m2[3][2]*m3[2][2]+m2[3][3]*m3[3][2];
 	m_aux[3][3]= m2[3][0]*m3[0][3]+m2[3][1]*m3[1][3]+m2[3][2]*m3[2][3]+m2[3][3]*m3[3][3];
 
-	m1=m_aux;
+	for (i=0;i<4;i++){
+		for(j=0;j<4;j++){
+			m1[i][j]=m_aux[i][j];
+		}
+	}
 
 }
 
@@ -51,7 +59,7 @@ void copierMatrice3d(double m1[4][4], double m2[4][4]) // m1 = m2
 {
 	//int i, j;
 
-	// TODO
+	
 	m1[0][0]=m2[0][0];
 	m1[0][1]=m2[0][1];
 	m1[0][2]=m2[0][2];

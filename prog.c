@@ -28,8 +28,9 @@ int main(int argc,char** argv)
 #ifdef O3D
     
     t_point3d *origine = definirPoint3d(0,0,0), *vecteur;
-    t_objet3d *o10 = parallelepipede(80, 40, 60);  
-    //rotationObjet3d(o10, origine, 90, 20,0);
+    t_objet3d *o10 = damier(100, 100, 6, 6); 
+	
+    rotationObjet3d(o10, origine, 90, 0,0);
 #endif
 
     int i=0;
@@ -38,7 +39,7 @@ int main(int argc,char** argv)
     timestart = SDL_GetTicks();
 
 
-    while(i<10)
+    while(i<50)
     {
         effacerFenetre(surface, 0);
 
@@ -61,7 +62,7 @@ int main(int argc,char** argv)
 	printf("point B -> x: %f , y: %f, z: %f \n", t10->abc[1]->xyzt[0],t10->abc[1]->xyzt[1], t10->abc[1]->xyzt[2]);
 	printf("point C -> x: %f , y: %f, z: %f \n", t10->abc[2]->xyzt[0],t10->abc[2]->xyzt[1], t10->abc[2]->xyzt[2]); 
 
-    rotationTriangle3d(t10, p10, 0, 10, 10); // rotation d'axe Y
+    rotationTriangle3d(t10, p10, 0, 10, 0); // rotation d'axe Y
     remplirTriangle3d(surface, t10, echelle_de_couleur(30*i));
 	SDL_Delay(500);
 	
@@ -75,10 +76,10 @@ int main(int argc,char** argv)
  */
         vecteur = definirPoint3d(sin(i*M_PI/180),cos(i*M_PI/180),0);
         translationObjet3d(o10, vecteur);
-		rotationObjet3d(o10, origine, 0, 90,0);
+		rotationObjet3d(o10, origine, 0, 50,80);
         dessinerObjet3d(surface, o10);
         free(vecteur);
-		SDL_Delay(1000);
+		SDL_Delay(500);
 #endif
 
         majEcran(surface);
