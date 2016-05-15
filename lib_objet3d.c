@@ -135,12 +135,12 @@ t_objet3d* sphere(double r, double nlat, double nlong)
 	pt_objet = objet_vide();
 	int i=0,j=1;
 	double alpha=2*M_PI/nlong;
-	double beta=M_PI*2/nlat;
-	
+	double Ibeta=M_PI/(nlat*2);
+	double beta=0;
 	t_triangle3d *T_aux1,*T_aux2;
 	t_triangle3d *T1, *T2;
 
-	T1=definirTriangle3d(definirPoint3d(r, 0,0), 
+	/*T1=definirTriangle3d(definirPoint3d(r, 0,0), 
 						definirPoint3d(cos(alpha)*r, sin(alpha)*r, 0), 
 						definirPoint3d(cos(beta)*r,0,sin(beta)*r));
 
@@ -148,7 +148,7 @@ t_objet3d* sphere(double r, double nlat, double nlong)
 						definirPoint3d(cos(alpha)*r, sin(alpha)*r, 0), 
 						definirPoint3d(cos(alpha)*r,sin(alpha)*r,sin(beta)*r));
 
-	/*printf("T1\n");
+	printf("T1\n");
 	printf("point A -> x: %f , y: %f, z: %f \n", T1->abc[0]->xyzt[0],T1->abc[0]->xyzt[1], T1->abc[0]->xyzt[2]);  
 	printf("point B -> x: %f , y: %f, z: %f \n", T1->abc[1]->xyzt[0],T1->abc[1]->xyzt[1], T1->abc[1]->xyzt[2]);
 	printf("point C -> x: %f , y: %f, z: %f \n", T1->abc[2]->xyzt[0],T1->abc[2]->xyzt[1], T1->abc[2]->xyzt[2]);
@@ -156,21 +156,35 @@ t_objet3d* sphere(double r, double nlat, double nlong)
 	printf("T2\n");
 	printf("point A -> x: %f , y: %f, z: %f \n", T2->abc[0]->xyzt[0],T2->abc[0]->xyzt[1], T2->abc[0]->xyzt[2]);  
 	printf("point B -> x: %f , y: %f, z: %f \n", T2->abc[1]->xyzt[0],T2->abc[1]->xyzt[1], T2->abc[1]->xyzt[2]);
-	printf("point C -> x: %f , y: %f, z: %f \n", T2->abc[2]->xyzt[0],T2->abc[2]->xyzt[1], T2->abc[2]->xyzt[2]);*/
+	printf("point C -> x: %f , y: %f, z: %f \n", T2->abc[2]->xyzt[0],T2->abc[2]->xyzt[1], T2->abc[2]->xyzt[2]);
 
 	__insere_tete(pt_objet,__cree_maillon(T1,BLEUF));
-	__insere_tete(pt_objet,__cree_maillon(T2,ROUGEF));
+	__insere_tete(pt_objet,__cree_maillon(T2,ROUGEF));*/
 	
-	for (i=0; i<=nlong; i++){
-		//for(j=0; j<=nlong; j++){
+	for (j=-nlat; j<=nlat; j++){
+
+
+		T1=definirTriangle3d(definirPoint3d(r*cos(beta), 0,r*sin(beta)), 
+						definirPoint3d(cos(alpha)*cos(beta)*r, sin(alpha)*cos(beta)*r, r*sin(beta)), 
+						definirPoint3d(cos(beta+Ibeta)*r,0,sin(beta+Ibeta)*r));
+
+		T2=definirTriangle3d(definirPoint3d(cos(beta+Ibeta)*r,0,sin(beta+Ibeta)*r), 
+						definirPoint3d(cos(alpha)*cos(beta)*r, sin(alpha)*cos(beta)*r, r*sin(beta)), 
+						definirPoint3d(cos(alpha)*cos(beta+Ibeta)*r,sin(alpha)*cos(beta+Ibeta)*r,sin(beta+Ibeta)*r));
+
+		__insere_tete(pt_objet,__cree_maillon(T1,BLEUF));
+		__insere_tete(pt_objet,__cree_maillon(T2,ROUGEF));
+	
+		for(i=0; i<=nlong; i++){
 			printf("%d\n", i);
 			T_aux1=copierTriangle3d(T1);
 			T_aux2=copierTriangle3d(T2);
-			rotationTriangle3d(T_aux1,definirPoint3d(0,0,0),0,beta*180*j/M_PI,alpha*180*i/M_PI);
-			rotationTriangle3d(T_aux2,definirPoint3d(0,0,0),0,beta*180*j/M_PI,alpha*180*i/M_PI);
+			rotationTriangle3d(T_aux1,definirPoint3d(0,0,0),0,0,alpha*i*180/M_PI);
+			rotationTriangle3d(T_aux2,definirPoint3d(0,0,0),0,0,alpha*i*180/M_PI);
 			__insere_tete(pt_objet,__cree_maillon(T_aux1,BLEUF));
 			__insere_tete(pt_objet,__cree_maillon(T_aux2,ROUGEF));
-		//}
+		}
+		beta=j*Ibeta;
 	}
 
 	return pt_objet;

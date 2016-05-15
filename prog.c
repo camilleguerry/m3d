@@ -28,7 +28,7 @@ int main(int argc,char** argv)
 #ifdef O3D
     
     t_point3d *origine = definirPoint3d(0,0,0), *vecteur;
-    t_objet3d *o10 = sphere(100,6,6); 
+    t_objet3d *o10 = sphere(100,10,10); 
 	
     rotationObjet3d(o10, origine, 0, 90,0);
 #endif
