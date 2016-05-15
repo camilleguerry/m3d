@@ -28,9 +28,9 @@ int main(int argc,char** argv)
 #ifdef O3D
     
     t_point3d *origine = definirPoint3d(0,0,0), *vecteur;
-    t_objet3d *o10 = damier(100, 100, 6, 6); 
+    t_objet3d *o10 = sphere(100,6,6); 
 	
-    rotationObjet3d(o10, origine, 90, 0,0);
+    rotationObjet3d(o10, origine, 0, 90,0);
 #endif
 
     int i=0;
@@ -75,7 +75,7 @@ int main(int argc,char** argv)
  * - finir par le tri des faces d'un objet et la composition des objets
  */
         vecteur = definirPoint3d(sin(i*M_PI/180),cos(i*M_PI/180),0);
-        translationObjet3d(o10, vecteur);
+        //translationObjet3d(o10, vecteur);
 		rotationObjet3d(o10, origine, 0, 50,80);
         dessinerObjet3d(surface, o10);
         free(vecteur);

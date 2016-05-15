@@ -55,14 +55,20 @@ t_triangle3d *definirTriangle3d(t_point3d * a, t_point3d * b, t_point3d * c)	// 
 
 t_triangle3d *copierTriangle3d(t_triangle3d *t)
 {
+	int i,j;
 	t_triangle3d *n = NULL;
-
 	n=(t_triangle3d*) malloc(sizeof(t_triangle3d));
 	if (n!=NULL)
 	{
-		n->abc[0]=t->abc[0];
-		n->abc[1]=t->abc[1];
-		n->abc[2]=t->abc[2];
+		for (i=0;i<3;i++){
+			n->abc[i]=(t_point3d*) malloc(sizeof(t_point3d));
+			for(j=0;j<4;j++){
+				n->abc[i]->xyzt[j]=t->abc[i]->xyzt[j];
+			}
+		}
+		printf("point A -> x: %f , y: %f, z: %f \n", n->abc[0]->xyzt[0],n->abc[0]->xyzt[1], n->abc[0]->xyzt[2]);  
+		printf("point B -> x: %f , y: %f, z: %f \n", n->abc[1]->xyzt[0],n->abc[1]->xyzt[1], n->abc[1]->xyzt[2]);
+		printf("point C -> x: %f , y: %f, z: %f \n", n->abc[2]->xyzt[0],n->abc[2]->xyzt[1], n->abc[2]->xyzt[2]); 
 	}
 
 	return n;
@@ -156,16 +162,13 @@ void rotationTriangle3d(t_triangle3d *t, t_point3d *centre, float degreX, float 
 	t_triangle3d *t_aux;
 	p_aux=(t_point3d*) malloc(sizeof(t_point3d));
 	t_aux=(t_triangle3d*) malloc(sizeof(t_triangle3d));
-	
-	
+		
 	double mtranslation[4][4]={
 			{1,0,0, -centre->xyzt[0]},\
 			{0,1,0, -centre->xyzt[1]},\
 			{0,0,1, -centre->xyzt[2]},\
 			{0,0,0,1}};
 
-			
-	
 	for (i=0; i<3; i++){
 		t_aux->abc[i]=(t_point3d*) malloc(sizeof(t_point3d));
 		multiplicationVecteur3d(t_aux->abc[i], mtranslation, t->abc[i]);	

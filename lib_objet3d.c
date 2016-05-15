@@ -2,7 +2,7 @@
 #include <math.h>
 #include "lib_3d.h"
 #include "lib_objet3d.h"
-#include "lib_mat.h"
+//#include "lib_mat.h"
 #include "lib_surface.h"
 
 
@@ -133,8 +133,45 @@ t_objet3d* sphere(double r, double nlat, double nlong)
 	t_objet3d *pt_objet = NULL;
 
 	pt_objet = objet_vide();
+	int i=0,j=1;
+	double alpha=2*M_PI/nlong;
+	double beta=M_PI*2/nlat;
+	
+	t_triangle3d *T_aux1,*T_aux2;
+	t_triangle3d *T1, *T2;
 
-	// TODO
+	T1=definirTriangle3d(definirPoint3d(r, 0,0), 
+						definirPoint3d(cos(alpha)*r, sin(alpha)*r, 0), 
+						definirPoint3d(cos(beta)*r,0,sin(beta)*r));
+
+	T2=definirTriangle3d(definirPoint3d(cos(beta)*r,0,sin(beta)*r), 
+						definirPoint3d(cos(alpha)*r, sin(alpha)*r, 0), 
+						definirPoint3d(cos(alpha)*r,sin(alpha)*r,sin(beta)*r));
+
+	/*printf("T1\n");
+	printf("point A -> x: %f , y: %f, z: %f \n", T1->abc[0]->xyzt[0],T1->abc[0]->xyzt[1], T1->abc[0]->xyzt[2]);  
+	printf("point B -> x: %f , y: %f, z: %f \n", T1->abc[1]->xyzt[0],T1->abc[1]->xyzt[1], T1->abc[1]->xyzt[2]);
+	printf("point C -> x: %f , y: %f, z: %f \n", T1->abc[2]->xyzt[0],T1->abc[2]->xyzt[1], T1->abc[2]->xyzt[2]);
+
+	printf("T2\n");
+	printf("point A -> x: %f , y: %f, z: %f \n", T2->abc[0]->xyzt[0],T2->abc[0]->xyzt[1], T2->abc[0]->xyzt[2]);  
+	printf("point B -> x: %f , y: %f, z: %f \n", T2->abc[1]->xyzt[0],T2->abc[1]->xyzt[1], T2->abc[1]->xyzt[2]);
+	printf("point C -> x: %f , y: %f, z: %f \n", T2->abc[2]->xyzt[0],T2->abc[2]->xyzt[1], T2->abc[2]->xyzt[2]);*/
+
+	__insere_tete(pt_objet,__cree_maillon(T1,BLEUF));
+	__insere_tete(pt_objet,__cree_maillon(T2,ROUGEF));
+	
+	for (i=0; i<=nlong; i++){
+		//for(j=0; j<=nlong; j++){
+			printf("%d\n", i);
+			T_aux1=copierTriangle3d(T1);
+			T_aux2=copierTriangle3d(T2);
+			rotationTriangle3d(T_aux1,definirPoint3d(0,0,0),0,beta*180*j/M_PI,alpha*180*i/M_PI);
+			rotationTriangle3d(T_aux2,definirPoint3d(0,0,0),0,beta*180*j/M_PI,alpha*180*i/M_PI);
+			__insere_tete(pt_objet,__cree_maillon(T_aux1,BLEUF));
+			__insere_tete(pt_objet,__cree_maillon(T_aux2,ROUGEF));
+		//}
+	}
 
 	return pt_objet;
 }

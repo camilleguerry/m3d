@@ -3,6 +3,7 @@
 
 #include "lib_surface.h"
 #include "lib_3d.h"
+#include <math.h>
 
 typedef enum {
 	false=0, true
