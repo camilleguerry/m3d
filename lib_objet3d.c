@@ -190,6 +190,8 @@ t_objet3d* sphere(double r, double nlat, double nlong)
 	return pt_objet;
 }
 
+
+
 t_objet3d* sphere_amiga(double r, double nlat, double nlong)
 {
 	t_objet3d *pt_objet = NULL;

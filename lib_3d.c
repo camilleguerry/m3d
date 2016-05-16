@@ -202,17 +202,8 @@ void rotationTriangle3d(t_triangle3d *t, t_point3d *centre, float degreX, float 
 	
 	for (i=0; i<3; i++){
 		multiplicationVecteur3d(t_aux->abc[i], mrotationX, t_aux->abc[i]);
-		/*for (j=0; j<4; j++){
-			t_aux->abc[i]->xyzt[j]=p_aux->xyzt[j];
-		}*/
 		multiplicationVecteur3d(t_aux->abc[i], mrotationY, t_aux->abc[i]);
-		/*for (j=0; j<4; j++){
-			t_aux->abc[i]->xyzt[j]=p_aux->xyzt[j];
-		}*/
 		multiplicationVecteur3d(t_aux->abc[i], mrotationZ, t_aux->abc[i]);
-		/*for (j=0; j<4; j++){
-			t_aux->abc[i]->xyzt[j]=p_aux->xyzt[j];
-		}*/
 	};
 
 
@@ -238,7 +229,7 @@ void rotationTriangle3d(t_triangle3d *t, t_point3d *centre, float degreX, float 
 void transformationTriangle3d(t_triangle3d *t, double mat[4][4]){
 	int i;
 	for (i=0; i<3; i++){
-		t->abc[i]=(t_point3d*) malloc(sizeof(t_point3d));
+		//t->abc[i]=(t_point3d*) malloc(sizeof(t_point3d));
 		multiplicationVecteur3d(t->abc[i], mat, t->abc[i]);	
 	};
 		
