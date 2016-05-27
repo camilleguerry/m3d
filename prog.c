@@ -5,6 +5,7 @@
 #include "lib_2d.h"
 #include "lib_3d.h"
 #include "lib_objet3d.h"
+#include "lib_scene3d.h"
 
 //#define T2D
 //#define T3D
@@ -27,10 +28,18 @@ int main(int argc,char** argv)
 #endif
 #ifdef O3D
     
-    t_point3d *origine = definirPoint3d(0,0,0), *vecteur;
-    t_objet3d *o10 = sphere(100,10,10); 
+    t_point3d *origine = definirPoint3d(0,0,0), *vecteur, *vecteur2;
+    t_objet3d *o10 = damier(400,400,17,17);
+	t_objet3d *o11= sphere(20, 10, 10);
+	t_objet3d *o12= cylindreHexa(10, 90);
+    //rotationObjet3d(o10, origine, 0, 90,0);
+	t_scene3d* scene1;
+	scene1=definirScene3d(o10);
+	ajouter_relation(scene1, o11);
+	ajouter_relation(scene1, o12);
+	translationScene3d(scene1->pt_fils,definirPoint3d(0,15,0));
+	rotationScene3d(scene1,origine, 20, 20, 0);
 	
-    rotationObjet3d(o10, origine, 0, 90,0);
 #endif
 
     int i=0;
@@ -74,12 +83,17 @@ int main(int argc,char** argv)
  * - continuer par les transformations
  * - finir par le tri des faces d'un objet et la composition des objets
  */
-        vecteur = definirPoint3d(sin(i*M_PI/180),cos(i*M_PI/180),0);
-        //translationObjet3d(o10, vecteur);
-		rotationObjet3d(o10, origine, 0, 50,80);
-        dessinerObjet3d(surface, o10);
-        free(vecteur);
-		SDL_Delay(500);
+    vecteur = definirPoint3d(sin(i*M_PI/180),cos(i*M_PI/180),0);
+	vecteur2=definirPoint3d(10,0,0);
+    //translationObjet3d(o10, vecteur);
+	//rotationObjet3d(o12, origine, 0, 50,80);
+    //dessinerObjet3d(surface, o12);
+	//rotationScene3d(scene1,origine, 0, 50, 80);
+	translationScene3d(scene1->pt_fils,vecteur);
+    free(vecteur);
+	free(vecteur2);
+	SDL_Delay(500);
+	dessinerScene3d(surface, scene1);
 #endif
 
         majEcran(surface);

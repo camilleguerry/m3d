@@ -131,7 +131,6 @@ t_objet3d* parallelepipede(double lx, double ly, double lz)
 t_objet3d* sphere(double r, double nlat, double nlong)
 {
 	t_objet3d *pt_objet = NULL;
-
 	pt_objet = objet_vide();
 	int i=0,j=1;
 	double alpha=2*M_PI/nlong;
@@ -140,29 +139,8 @@ t_objet3d* sphere(double r, double nlat, double nlong)
 	t_triangle3d *T_aux1,*T_aux2;
 	t_triangle3d *T1, *T2;
 
-	/*T1=definirTriangle3d(definirPoint3d(r, 0,0), 
-						definirPoint3d(cos(alpha)*r, sin(alpha)*r, 0), 
-						definirPoint3d(cos(beta)*r,0,sin(beta)*r));
-
-	T2=definirTriangle3d(definirPoint3d(cos(beta)*r,0,sin(beta)*r), 
-						definirPoint3d(cos(alpha)*r, sin(alpha)*r, 0), 
-						definirPoint3d(cos(alpha)*r,sin(alpha)*r,sin(beta)*r));
-
-	printf("T1\n");
-	printf("point A -> x: %f , y: %f, z: %f \n", T1->abc[0]->xyzt[0],T1->abc[0]->xyzt[1], T1->abc[0]->xyzt[2]);  
-	printf("point B -> x: %f , y: %f, z: %f \n", T1->abc[1]->xyzt[0],T1->abc[1]->xyzt[1], T1->abc[1]->xyzt[2]);
-	printf("point C -> x: %f , y: %f, z: %f \n", T1->abc[2]->xyzt[0],T1->abc[2]->xyzt[1], T1->abc[2]->xyzt[2]);
-
-	printf("T2\n");
-	printf("point A -> x: %f , y: %f, z: %f \n", T2->abc[0]->xyzt[0],T2->abc[0]->xyzt[1], T2->abc[0]->xyzt[2]);  
-	printf("point B -> x: %f , y: %f, z: %f \n", T2->abc[1]->xyzt[0],T2->abc[1]->xyzt[1], T2->abc[1]->xyzt[2]);
-	printf("point C -> x: %f , y: %f, z: %f \n", T2->abc[2]->xyzt[0],T2->abc[2]->xyzt[1], T2->abc[2]->xyzt[2]);
-
-	__insere_tete(pt_objet,__cree_maillon(T1,BLEUF));
-	__insere_tete(pt_objet,__cree_maillon(T2,ROUGEF));*/
 	
 	for (j=-nlat; j<=nlat; j++){
-
 
 		T1=definirTriangle3d(definirPoint3d(r*cos(beta), 0,r*sin(beta)), 
 						definirPoint3d(cos(alpha)*cos(beta)*r, sin(alpha)*cos(beta)*r, r*sin(beta)), 
@@ -176,7 +154,7 @@ t_objet3d* sphere(double r, double nlat, double nlong)
 		__insere_tete(pt_objet,__cree_maillon(T2,ROUGEF));
 	
 		for(i=0; i<=nlong; i++){
-			printf("%d\n", i);
+			
 			T_aux1=copierTriangle3d(T1);
 			T_aux2=copierTriangle3d(T2);
 			rotationTriangle3d(T_aux1,definirPoint3d(0,0,0),0,0,alpha*i*180/M_PI);
@@ -282,6 +260,48 @@ t_objet3d* damier(double lx, double lz, double nx, double nz)
 
 	return pt_objet;
 
+}
+
+t_objet3d* cylindreHexa(double r, double h)
+{
+	Uint32 couleur;
+	int i;
+	t_triangle3d *T_aux1,*T_aux2, *T_aux3, *T_aux4;
+	t_triangle3d *T1, *T2, *T3, *T4;
+
+	t_objet3d *pt_objet = NULL;
+	pt_objet = objet_vide();
+	
+	T1=definirTriangle3d(definirPoint3d(-r/2, -r, h/2), definirPoint3d(r/2, -r, h/2), definirPoint3d(0, 0, h/2));
+	T2=definirTriangle3d(definirPoint3d(-r/2, -r, -h/2), definirPoint3d(r/2, -r, -h/2), definirPoint3d(0, 0, -h/2));
+	T3=definirTriangle3d(definirPoint3d(-r/2, -r, h/2), definirPoint3d(r/2, -r, h/2), definirPoint3d(-r/2, -r, -h/2));
+	T4=definirTriangle3d(definirPoint3d(r/2, -r, h/2), definirPoint3d(r/2, -r, -h/2), definirPoint3d(-r/2, -r, -h/2));
+
+	for(i=0; i<=6; i++){	
+			if(i%2==0){
+				couleur=BLEUC;}
+			else{
+				couleur=ROUGEC;}
+
+			T_aux1=copierTriangle3d(T1);
+			T_aux2=copierTriangle3d(T2);
+			T_aux3=copierTriangle3d(T3);
+			T_aux4=copierTriangle3d(T4);
+			
+			rotationTriangle3d(T_aux1,definirPoint3d(0,0,0),0,0,i*60);
+			rotationTriangle3d(T_aux2,definirPoint3d(0,0,0),0,0,i*60);
+			rotationTriangle3d(T_aux3,definirPoint3d(0,0,0),0,0,i*60);
+			rotationTriangle3d(T_aux4,definirPoint3d(0,0,0),0,0,i*60);
+
+			__insere_tete(pt_objet,__cree_maillon(T_aux1,couleur));
+			__insere_tete(pt_objet,__cree_maillon(T_aux2,couleur));
+			__insere_tete(pt_objet,__cree_maillon(T_aux3,couleur));
+			__insere_tete(pt_objet,__cree_maillon(T_aux4,couleur));
+		}
+		
+	
+	
+	return pt_objet;
 }
 
 t_objet3d *copierObjet3d(t_objet3d *o) // attention, effectue une copie mirroir

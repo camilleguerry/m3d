@@ -62,34 +62,18 @@ void translationScene3d(t_scene3d *pt_scene, t_point3d *vecteur)
 	t_scene3d* pt_maillon1;
 	pt_maillon1= pt_scene;
 
+
 	while(pt_maillon1!=NULL){
 		t_scene3d* pt_maillon2;
 		pt_maillon2=pt_maillon1;
 		while(pt_maillon2!=NULL){ 
 			if(pt_maillon2->objet->est_camera){
-				for(i=0; i<4; i++){
-					for(j=0;j<4; i++){
-						pt_maillon2->descendant[i][j]=mtranslation1[i][j];
-					}
-				}
-				for(i=0; i<4; i++){
-					for(j=0;j<4; i++){
-						pt_maillon2->montant[i][j]=mtranslation1[i][j];
-					}
-				}
-			}
+				multiplicationMatrice3d(pt_maillon2->descendant,pt_maillon2->descendant, mtranslation1);
+				multiplicationMatrice3d(pt_maillon2->montant,pt_maillon2->montant, mtranslation1);}
 			else{
-				for(i=0; i<4; i++){
-					for(j=0;j<4; i++){
-						pt_maillon2->descendant[i][j]=mtranslation2[i][j];
-					}
-				}
-				for(i=0; i<4; i++){
-					for(j=0;j<4; i++){
-						pt_maillon2->montant[i][j]=mtranslation2[i][j];
-					}
-				}
-			}
+				multiplicationMatrice3d(pt_maillon2->descendant,pt_maillon2->descendant, mtranslation2);
+				multiplicationMatrice3d(pt_maillon2->montant,pt_maillon2->montant, mtranslation2);}
+			
 		pt_maillon2=pt_maillon2->pt_suiv;
 		}
 	pt_maillon1=pt_maillon1->pt_fils;
@@ -156,9 +140,10 @@ void rotationScene3d(t_scene3d *pt_scene, t_point3d *centre, float degreX, float
 	multiplicationMatrice3d(mrotation1,mrotation1,mrotationZ);
 
 	double mrotation2[4][4];
-	multiplicationMatrice3d(mrotation2,mrotationX2,mrotationY2);
-	multiplicationMatrice3d(mrotation2,mrotation2,mrotationZ2);
+	multiplicationMatrice3d(mrotation2,mrotationZ2,mrotationY2);
+	multiplicationMatrice3d(mrotation2,mrotation2,mrotationX2);
 
+	
 
 	int i, j;
 	t_scene3d* pt_maillon1;
@@ -168,30 +153,14 @@ void rotationScene3d(t_scene3d *pt_scene, t_point3d *centre, float degreX, float
 		t_scene3d* pt_maillon2;
 		pt_maillon2=pt_maillon1;
 		while(pt_maillon2!=NULL){ 
+
 			if(pt_maillon2->objet->est_camera){
-				for(i=0; i<4; i++){
-					for(j=0;j<4; i++){
-						pt_maillon2->descendant[i][j]=mrotation1[i][j];
-					}
-				}
-				for(i=0; i<4; i++){
-					for(j=0;j<4; i++){
-						pt_maillon2->montant[i][j]=mrotation1[i][j];
-					}
-				}
-			}
+				multiplicationMatrice3d(pt_maillon2->descendant,pt_maillon2->descendant, mrotation1);
+				multiplicationMatrice3d(pt_maillon2->montant,pt_maillon2->montant, mrotation1);}
 			else{
-				for(i=0; i<4; i++){
-					for(j=0;j<4; i++){
-						pt_maillon2->descendant[i][j]=mrotation2[i][j];
-					}
-				}
-				for(i=0; i<4; i++){
-					for(j=0;j<4; i++){
-						pt_maillon2->montant[i][j]=mrotation1[i][j];
-					}
-				}
-			}
+				multiplicationMatrice3d(pt_maillon2->descendant,pt_maillon2->descendant, mrotation2);
+				multiplicationMatrice3d(pt_maillon2->montant,pt_maillon2->montant, mrotation2);}
+			
 		pt_maillon2=pt_maillon2->pt_suiv;
 		}
 	pt_maillon1=pt_maillon1->pt_fils;
@@ -205,9 +174,10 @@ void dessinerScene3d(t_surface *surface, t_scene3d* pt_racine)
 	if(pt_racine!=NULL){
 		int i;
 		t_scene3d* pt_aux;
-		transformationTriangle3d(pt_racine->objet->tete->face,pt_racine->descendant);
-		pt_aux=pt_racine->pt_fils;	
+		transformationObjet3d(pt_racine->objet, pt_racine->descendant);	
 		dessinerObjet3d(surface, pt_racine->objet);
+		transformationObjet3d(pt_racine->objet, pt_racine->montant);
+		pt_aux=pt_racine->pt_fils;
 		while (pt_aux!=NULL){
 			dessinerScene3d(surface, pt_aux);
 			pt_aux=pt_aux->pt_fils;

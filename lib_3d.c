@@ -66,9 +66,7 @@ t_triangle3d *copierTriangle3d(t_triangle3d *t)
 				n->abc[i]->xyzt[j]=t->abc[i]->xyzt[j];
 			}
 		}
-		printf("point A -> x: %f , y: %f, z: %f \n", n->abc[0]->xyzt[0],n->abc[0]->xyzt[1], n->abc[0]->xyzt[2]);  
-		printf("point B -> x: %f , y: %f, z: %f \n", n->abc[1]->xyzt[0],n->abc[1]->xyzt[1], n->abc[1]->xyzt[2]);
-		printf("point C -> x: %f , y: %f, z: %f \n", n->abc[2]->xyzt[0],n->abc[2]->xyzt[1], n->abc[2]->xyzt[2]); 
+		 
 	}
 
 	return n;
