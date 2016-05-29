@@ -272,10 +272,10 @@ t_objet3d* cylindreHexa(double r, double h)
 	t_objet3d *pt_objet = NULL;
 	pt_objet = objet_vide();
 	
-	T1=definirTriangle3d(definirPoint3d(-r/2, -r, h/2), definirPoint3d(r/2, -r, h/2), definirPoint3d(0, 0, h/2));
-	T2=definirTriangle3d(definirPoint3d(-r/2, -r, -h/2), definirPoint3d(r/2, -r, -h/2), definirPoint3d(0, 0, -h/2));
-	T3=definirTriangle3d(definirPoint3d(-r/2, -r, h/2), definirPoint3d(r/2, -r, h/2), definirPoint3d(-r/2, -r, -h/2));
-	T4=definirTriangle3d(definirPoint3d(r/2, -r, h/2), definirPoint3d(r/2, -r, -h/2), definirPoint3d(-r/2, -r, -h/2));
+	T1=definirTriangle3d(definirPoint3d(-r/2, -r*cos(30.*M_PI/180.), h/2), definirPoint3d(r/2, -r*cos(30*M_PI/180.), h/2), definirPoint3d(0, 0, h/2));
+	T2=definirTriangle3d(definirPoint3d(-r/2, -r*cos(30.*M_PI/180.), -h/2), definirPoint3d(r/2, -r*cos(30.*M_PI/180.), -h/2), definirPoint3d(0, 0, -h/2));
+	T3=definirTriangle3d(definirPoint3d(-r/2, -r*cos(30.*M_PI/180.), h/2), definirPoint3d(r/2, -r*cos(30.*M_PI/180.), h/2), definirPoint3d(-r/2, -r*cos(30.*M_PI/180.), -h/2));
+	T4=definirTriangle3d(definirPoint3d(r/2, -r*cos(30.*M_PI/180.), h/2), definirPoint3d(r/2, -r*cos(30.*M_PI/180.), -h/2), definirPoint3d(-r/2, -r*cos(30.*M_PI/180.), -h/2));
 
 	for(i=0; i<=6; i++){	
 			if(i%2==0){

@@ -72,7 +72,7 @@ void translationScene3d(t_scene3d *pt_scene, t_point3d *vecteur)
 				multiplicationMatrice3d(pt_maillon2->montant,pt_maillon2->montant, mtranslation1);}
 			else{
 				multiplicationMatrice3d(pt_maillon2->descendant,pt_maillon2->descendant, mtranslation2);
-				multiplicationMatrice3d(pt_maillon2->montant,pt_maillon2->montant, mtranslation2);}
+				multiplicationMatrice3d(pt_maillon2->montant, mtranslation2,pt_maillon2->montant);}
 			
 		pt_maillon2=pt_maillon2->pt_suiv;
 		}
@@ -156,10 +156,10 @@ void rotationScene3d(t_scene3d *pt_scene, t_point3d *centre, float degreX, float
 
 			if(pt_maillon2->objet->est_camera){
 				multiplicationMatrice3d(pt_maillon2->descendant,pt_maillon2->descendant, mrotation1);
-				multiplicationMatrice3d(pt_maillon2->montant,pt_maillon2->montant, mrotation1);}
+				multiplicationMatrice3d(pt_maillon2->montant, mrotation1,pt_maillon2->montant);}
 			else{
-				multiplicationMatrice3d(pt_maillon2->descendant,pt_maillon2->descendant, mrotation2);
-				multiplicationMatrice3d(pt_maillon2->montant,pt_maillon2->montant, mrotation2);}
+				multiplicationMatrice3d(pt_maillon2->descendant,pt_maillon2->descendant, mrotation1);
+				multiplicationMatrice3d(pt_maillon2->montant, mrotation2,pt_maillon2->montant);}
 			
 		pt_maillon2=pt_maillon2->pt_suiv;
 		}
@@ -172,16 +172,23 @@ void rotationScene3d(t_scene3d *pt_scene, t_point3d *centre, float degreX, float
 void dessinerScene3d(t_surface *surface, t_scene3d* pt_racine)
 {
 	if(pt_racine!=NULL){
-		int i;
+
+		transformationObjet3d(pt_racine->objet, pt_racine->descendant);
+		dessinerObjet3d(surface, pt_racine->objet);	
 		t_scene3d* pt_aux;
-		transformationObjet3d(pt_racine->objet, pt_racine->descendant);	
-		dessinerObjet3d(surface, pt_racine->objet);
-		transformationObjet3d(pt_racine->objet, pt_racine->montant);
 		pt_aux=pt_racine->pt_fils;
 		while (pt_aux!=NULL){
-			dessinerScene3d(surface, pt_aux);
-			pt_aux=pt_aux->pt_fils;
+			transformationObjet3d(pt_aux->objet, pt_aux->descendant);	
+			pt_aux=pt_aux->pt_fils;	
 		}
+		dessinerScene3d(surface, pt_racine->pt_fils);
+		pt_aux=pt_racine;
+		transformationObjet3d(pt_racine->objet, pt_racine->montant);
+		while (pt_aux!=NULL){	
+			transformationObjet3d(pt_aux->objet, pt_aux->montant);
+			pt_aux=pt_aux->pt_fils;	
+		}
+		
 	}
 			
 }
