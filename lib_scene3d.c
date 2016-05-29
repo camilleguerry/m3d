@@ -174,19 +174,22 @@ void dessinerScene3d(t_surface *surface, t_scene3d* pt_racine)
 	if(pt_racine!=NULL){
 
 		transformationObjet3d(pt_racine->objet, pt_racine->descendant);
-		dessinerObjet3d(surface, pt_racine->objet);	
+		dessinerObjet3d(surface, pt_racine->objet);
+		transformationObjet3d(pt_racine->objet, pt_racine->montant);	
 		t_scene3d* pt_aux;
 		pt_aux=pt_racine->pt_fils;
 		while (pt_aux!=NULL){
-			transformationObjet3d(pt_aux->objet, pt_aux->descendant);	
-			pt_aux=pt_aux->pt_fils;	
+			transformationObjet3d(pt_aux->objet, pt_racine->descendant);	
+			pt_aux=pt_aux->pt_fils;
+				
 		}
-		dessinerScene3d(surface, pt_racine->pt_fils);
+		
 		pt_aux=pt_racine;
-		transformationObjet3d(pt_racine->objet, pt_racine->montant);
+		dessinerScene3d(surface, pt_racine->pt_fils);
 		while (pt_aux!=NULL){	
-			transformationObjet3d(pt_aux->objet, pt_aux->montant);
-			pt_aux=pt_aux->pt_fils;	
+			transformationObjet3d(pt_aux->objet, pt_racine->montant);
+			pt_aux=pt_aux->pt_fils;
+
 		}
 		
 	}
