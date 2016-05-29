@@ -29,16 +29,22 @@ int main(int argc,char** argv)
 #ifdef O3D
     
     t_point3d *origine = definirPoint3d(0,0,0), *vecteur, *vecteur2;
-    t_objet3d *o10 = damier(400,400,17,17);
-	t_objet3d *o11= sphere(20, 10, 10);
-	t_objet3d *o12= cylindreHexa(180, 90);
-    //rotationObjet3d(o10, origine, 0, 90,0);
+    t_objet3d *o10 = damier(700,1000,17,17);
+	t_objet3d *o11= sphere(15, 10, 10);
+	t_objet3d *o12= cylindreHexa(20, 90);
+	t_objet3d *o13=parallelepipede(80, 30, 30);
+
 	t_scene3d* scene1;
 	scene1=definirScene3d(o10);
-	ajouter_relation(scene1, o11);
-	//ajouter_relation(scene1, o12);
-	translationScene3d(scene1,definirPoint3d(5,0,0));
-	//rotationScene3d(scene1,origine, 20, 20, 0);
+	ajouter_relation(ajouter_relation(ajouter_relation(scene1, o12), o13),o11);
+	rotationScene3d(scene1->pt_fils->pt_fils,origine, 0, 20, 0);
+	translationScene3d(scene1->pt_fils,definirPoint3d(200,45,-100));
+	translationScene3d(scene1->pt_fils->pt_fils,definirPoint3d(-200,150,100));
+	translationScene3d(scene1->pt_fils->pt_fils->pt_fils,definirPoint3d(0,-30,0));
+	rotationScene3d(scene1->pt_fils,origine, 90, 0, 0);
+	rotationScene3d(scene1->pt_fils->pt_fils,origine, -90, 0, 0);
+	rotationScene3d(scene1,origine, 10, 20, 0);
+	
 	
 #endif
 
@@ -84,16 +90,18 @@ int main(int argc,char** argv)
  * - finir par le tri des faces d'un objet et la composition des objets
  */
     vecteur = definirPoint3d(sin(i*M_PI/180),cos(i*M_PI/180),0);
-	vecteur2=definirPoint3d(10,0,0);
+	vecteur2=definirPoint3d(-5,0,0);
     //translationObjet3d(o10, vecteur);
 	//rotationObjet3d(o11, origine, 0, 0,80);
     //dessinerObjet3d(surface, o11);
-	//rotationScene3d(scene1->pt_fils,origine, 0, 0, 80);
-	//translationScene3d(scene1->pt_fils,vecteur2);
+	//rotationScene3d(scene1->pt_fils->pt_fils->pt_fils,origine, 0, 0, 80);
+	translationScene3d(scene1->pt_fils->pt_fils,vecteur2);
     free(vecteur);
 	free(vecteur2);
 	SDL_Delay(500);
 	dessinerScene3d(surface, scene1);
+
+	
 #endif
 
         majEcran(surface);
@@ -104,6 +112,8 @@ int main(int argc,char** argv)
 		
     }
    	libererObjet3d(o10);
+	libererObjet3d(o11);
+	libererObjet3d(o12);
 	SDL_Quit();
     return 0;
 }
