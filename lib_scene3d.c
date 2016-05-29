@@ -61,10 +61,10 @@ void translationScene3d(t_scene3d *pt_scene, t_point3d *vecteur)
 	
 	if(pt_scene->objet->est_camera){
 		multiplicationMatrice3d(pt_scene->descendant,pt_scene->descendant, mtranslation1);
-		multiplicationMatrice3d(pt_scene->montant,pt_scene->montant, mtranslation1);}
+		multiplicationMatrice3d(pt_scene->montant,pt_scene->montant, mtranslation2);}
 	else{
 		multiplicationMatrice3d(pt_scene->descendant,pt_scene->descendant, mtranslation2);
-		multiplicationMatrice3d(pt_scene->montant, mtranslation2,pt_scene->montant);}
+		multiplicationMatrice3d(pt_scene->montant, mtranslation1,pt_scene->montant);}
 	
 	
 	
@@ -135,7 +135,7 @@ void rotationScene3d(t_scene3d *pt_scene, t_point3d *centre, float degreX, float
 
 	if(pt_scene->objet->est_camera){
 		multiplicationMatrice3d(pt_scene->descendant,pt_scene->descendant, mrotation1);
-		multiplicationMatrice3d(pt_scene->montant, mrotation1,pt_scene->montant);}
+		multiplicationMatrice3d(pt_scene->montant, mrotation2,pt_scene->montant);}
 	else{
 		multiplicationMatrice3d(pt_scene->descendant,pt_scene->descendant, mrotation1);
 		multiplicationMatrice3d(pt_scene->montant, mrotation2,pt_scene->montant);}
@@ -149,20 +149,23 @@ void dessinerScene3d(t_surface *surface, t_scene3d* pt_racine)
 {
 	if(pt_racine!=NULL){
 
-		transformationObjet3d(pt_racine->objet, pt_racine->descendant);
-		dessinerObjet3d(surface, pt_racine->objet);
-		transformationObjet3d(pt_racine->objet, pt_racine->montant);	
+		//transformationObjet3d(pt_racine->objet, pt_racine->descendant);
+	
+		//transformationObjet3d(pt_racine->objet, pt_racine->montant);
 		t_scene3d* pt_aux;
-		pt_aux=pt_racine->pt_fils;
+		pt_aux=pt_racine;
 		while (pt_aux!=NULL){
 			transformationObjet3d(pt_aux->objet, pt_racine->descendant);	
-			pt_aux=pt_aux->pt_fils;		
+			pt_aux=pt_aux->pt_fils;
+					
 		}
 		pt_aux=pt_racine;
+		dessinerObjet3d(surface, pt_racine->objet);
 		dessinerScene3d(surface, pt_racine->pt_fils);
 		while (pt_aux!=NULL){	
 			transformationObjet3d(pt_aux->objet, pt_racine->montant);
 			pt_aux=pt_aux->pt_fils;
+		
 		}
 		
 	}
