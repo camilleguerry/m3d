@@ -58,27 +58,16 @@ void translationScene3d(t_scene3d *pt_scene, t_point3d *vecteur)
 			{0,0,1, -vecteur->xyzt[2]},\
 			{0,0,0,1}};
 
-	int i, j;
-	t_scene3d* pt_maillon1;
-	pt_maillon1= pt_scene;
-
-
-	while(pt_maillon1!=NULL){
-		t_scene3d* pt_maillon2;
-		pt_maillon2=pt_maillon1;
-		while(pt_maillon2!=NULL){ 
-			if(pt_maillon2->objet->est_camera){
-				multiplicationMatrice3d(pt_maillon2->descendant,pt_maillon2->descendant, mtranslation1);
-				multiplicationMatrice3d(pt_maillon2->montant,pt_maillon2->montant, mtranslation1);}
-			else{
-				multiplicationMatrice3d(pt_maillon2->descendant,pt_maillon2->descendant, mtranslation2);
-				multiplicationMatrice3d(pt_maillon2->montant, mtranslation2,pt_maillon2->montant);}
-			
-		pt_maillon2=pt_maillon2->pt_suiv;
-		}
-	pt_maillon1=pt_maillon1->pt_fils;
-
-	}
+	
+	if(pt_scene->objet->est_camera){
+		multiplicationMatrice3d(pt_scene->descendant,pt_scene->descendant, mtranslation1);
+		multiplicationMatrice3d(pt_scene->montant,pt_scene->montant, mtranslation1);}
+	else{
+		multiplicationMatrice3d(pt_scene->descendant,pt_scene->descendant, mtranslation2);
+		multiplicationMatrice3d(pt_scene->montant, mtranslation2,pt_scene->montant);}
+	
+	
+	
 	
 }
 
@@ -143,29 +132,16 @@ void rotationScene3d(t_scene3d *pt_scene, t_point3d *centre, float degreX, float
 	multiplicationMatrice3d(mrotation2,mrotationZ2,mrotationY2);
 	multiplicationMatrice3d(mrotation2,mrotation2,mrotationX2);
 
+
+	if(pt_scene->objet->est_camera){
+		multiplicationMatrice3d(pt_scene->descendant,pt_scene->descendant, mrotation1);
+		multiplicationMatrice3d(pt_scene->montant, mrotation1,pt_scene->montant);}
+	else{
+		multiplicationMatrice3d(pt_scene->descendant,pt_scene->descendant, mrotation1);
+		multiplicationMatrice3d(pt_scene->montant, mrotation2,pt_scene->montant);}
 	
 
-	int i, j;
-	t_scene3d* pt_maillon1;
-	pt_maillon1= pt_scene;
-
-	while(pt_maillon1!=NULL){
-		t_scene3d* pt_maillon2;
-		pt_maillon2=pt_maillon1;
-		while(pt_maillon2!=NULL){ 
-
-			if(pt_maillon2->objet->est_camera){
-				multiplicationMatrice3d(pt_maillon2->descendant,pt_maillon2->descendant, mrotation1);
-				multiplicationMatrice3d(pt_maillon2->montant, mrotation1,pt_maillon2->montant);}
-			else{
-				multiplicationMatrice3d(pt_maillon2->descendant,pt_maillon2->descendant, mrotation1);
-				multiplicationMatrice3d(pt_maillon2->montant, mrotation2,pt_maillon2->montant);}
-			
-		pt_maillon2=pt_maillon2->pt_suiv;
-		}
-	pt_maillon1=pt_maillon1->pt_fils;
-
-	}
+	
 }
 
 
@@ -180,16 +156,13 @@ void dessinerScene3d(t_surface *surface, t_scene3d* pt_racine)
 		pt_aux=pt_racine->pt_fils;
 		while (pt_aux!=NULL){
 			transformationObjet3d(pt_aux->objet, pt_racine->descendant);	
-			pt_aux=pt_aux->pt_fils;
-				
+			pt_aux=pt_aux->pt_fils;		
 		}
-		
 		pt_aux=pt_racine;
 		dessinerScene3d(surface, pt_racine->pt_fils);
 		while (pt_aux!=NULL){	
 			transformationObjet3d(pt_aux->objet, pt_racine->montant);
 			pt_aux=pt_aux->pt_fils;
-
 		}
 		
 	}
